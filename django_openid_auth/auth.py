@@ -30,7 +30,15 @@
 
 __metaclass__ = type
 
-from django.contrib.auth.models import User, Group
+import django
+
+if django.VERSION[1] < 5:
+    from django.contrib.auth.models import User, Group
+else:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+from django.contrib.auth.models import Group
 from openid.consumer.consumer import SUCCESS
 from openid.extensions import ax, sreg
 
