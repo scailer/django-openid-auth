@@ -27,8 +27,15 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import django
+
+if django.VERSION[1] < 5:
+    from django.contrib.auth.models import User
+else:
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
 from django.db import models
-from django.conf import settings
 
 
 class Nonce(models.Model):
@@ -53,6 +60,6 @@ class Association(models.Model):
 
 
 class UserOpenID(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(User)
     claimed_id = models.TextField()
     display_id = models.TextField()
